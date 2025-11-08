@@ -59,7 +59,7 @@ const navigationItems = [
             <!-- User Menu -->
             <div class="relative">
                 <div class="flex items-center space-x-4">
-                    <span id="user-name" class="text-gray-300 text-sm">Loading...</span>
+                    <span id="user-name" class="text-gray-300 text-sm cursor-pointer px-2 py-1">Loading...</span>
                     <div class="relative">
                         <button
                             id="user-menu-button"
@@ -169,15 +169,19 @@ const navigationItems = [
     function setupEventListeners() {
         // User menu toggle
         const userMenuButton = document.getElementById("user-menu-button");
+        const userName = document.getElementById("user-name");
         const userMenu = document.getElementById("user-menu");
 
-        userMenuButton?.addEventListener("click", () => {
+        const toggleUserMenu = () => {
             userMenu?.classList.toggle("hidden");
-        });
+        };
+
+        userMenuButton?.addEventListener("click", toggleUserMenu);
+        userName?.addEventListener("click", toggleUserMenu);
 
         // Close menu when clicking outside
         document.addEventListener("click", (e) => {
-            if (!userMenuButton?.contains(e.target) && !userMenu?.contains(e.target)) {
+            if (!userMenuButton?.contains(e.target) && !userName?.contains(e.target) && !userMenu?.contains(e.target)) {
                 userMenu?.classList.add("hidden");
             }
         });
