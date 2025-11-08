@@ -48,11 +48,23 @@ func (f *Factory) createMemoryDatabase(config *Config) (Database, error) {
 
 // createPostgreSQLDatabase creates a new PostgreSQL database instance
 func (f *Factory) createPostgreSQLDatabase(config *Config) (Database, error) {
-	// TODO: Implement PostgreSQL database
-	return nil, &DatabaseError{
-		Type:    "NOT_IMPLEMENTED",
-		Message: "PostgreSQL database not yet implemented",
+	if config.DSN == "" {
+		return nil, &DatabaseError{
+			Type:    "INVALID_CONFIG",
+			Message: "PostgreSQL DSN cannot be empty",
+		}
 	}
+
+	db, err := NewPostgreSQLDatabase(config.DSN)
+	if err != nil {
+		return nil, &DatabaseError{
+			Type:    "CONNECTION_ERROR",
+			Message: "failed to create PostgreSQL database",
+			Err:     err,
+		}
+	}
+
+	return db, nil
 }
 
 // createMySQLDatabase creates a new MySQL database instance

@@ -23,7 +23,22 @@ func main() {
 
 	// Initialize database
 	dbFactory := database.NewFactory()
-	db := dbFactory.CreateMemory() // Use in-memory database for now
+	var db database.Database
+	var err error
+
+	// Check if PostgreSQL DSN is provided
+	if postgresURI := os.Getenv("DATABASE_URL"); postgresURI != "" {
+		logger.Info("Using PostgreSQL database")
+		config := database.PostgreSQLConfig(postgresURI)
+		db, err = dbFactory.Create(config)
+		if err != nil {
+			logger.Error("Failed to connect to PostgreSQL", "error", err)
+			os.Exit(1)
+		}
+	} else {
+		logger.Info("Using in-memory database")
+		db = dbFactory.CreateMemory()
+	}
 
 	// Initialize auth service
 	authService := auth.NewService(db)
