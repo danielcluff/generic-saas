@@ -1,0 +1,181 @@
+---
+// Pricing section with subscription plans
+const plans = [
+  {
+    name: "Starter",
+    price: 29,
+    period: "month",
+    description: "Perfect for small teams getting started",
+    features: [
+      "Up to 5 team members",
+      "10GB storage",
+      "Basic analytics",
+      "Email support",
+      "API access",
+      "Basic integrations"
+    ],
+    popular: false,
+    cta: "Start Free Trial"
+  },
+  {
+    name: "Professional",
+    price: 79,
+    period: "month",
+    description: "Best for growing businesses",
+    features: [
+      "Up to 25 team members",
+      "100GB storage",
+      "Advanced analytics",
+      "Priority support",
+      "Full API access",
+      "Advanced integrations",
+      "Custom branding",
+      "SSO support"
+    ],
+    popular: true,
+    cta: "Start Free Trial"
+  },
+  {
+    name: "Enterprise",
+    price: 199,
+    period: "month",
+    description: "For large organizations",
+    features: [
+      "Unlimited team members",
+      "1TB storage",
+      "Enterprise analytics",
+      "24/7 phone support",
+      "White-label solution",
+      "Custom integrations",
+      "Advanced security",
+      "SLA guarantee",
+      "Dedicated account manager"
+    ],
+    popular: false,
+    cta: "Contact Sales"
+  }
+];
+---
+
+<section id="pricing" class="py-24 bg-slate-900">
+  <div class="container-max section-padding">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+        Simple, Transparent
+        <span class="gradient-text">Pricing</span>
+      </h2>
+      <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
+        Choose the perfect plan for your business. All plans include a 14-day free trial.
+        No setup fees, no hidden costs.
+      </p>
+
+      <!-- Billing toggle -->
+      <div class="inline-flex items-center bg-slate-800 p-1 rounded-lg">
+        <button class="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md">
+          Monthly
+        </button>
+        <button class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white">
+          Yearly
+          <span class="ml-1 px-2 py-1 text-xs bg-primary-500 text-white rounded">Save 20%</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {plans.map((plan, index) => (
+        <div class={`relative card-hover p-8 ${plan.popular ? 'ring-2 ring-primary-500 scale-105' : ''}`}>
+          {plan.popular && (
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+              <span class="bg-primary-500 text-white px-4 py-1 rounded-full text-sm font-medium">
+                Most Popular
+              </span>
+            </div>
+          )}
+
+          <div class="text-center mb-8">
+            <h3 class="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+            <p class="text-gray-400 mb-6">{plan.description}</p>
+
+            <div class="mb-6">
+              <span class="text-5xl font-bold text-white">${plan.price}</span>
+              <span class="text-gray-400">/{plan.period}</span>
+            </div>
+
+            <a
+              href={plan.name === 'Enterprise' ? '/contact' : '/register'}
+              class={`w-full ${plan.popular ? 'btn-primary' : 'btn-outline'}`}
+            >
+              {plan.cta}
+            </a>
+          </div>
+
+          <div class="space-y-4">
+            <h4 class="text-lg font-semibold text-white">What's included:</h4>
+            <ul class="space-y-3">
+              {plan.features.map((feature) => (
+                <li class="flex items-start">
+                  <svg class="w-5 h-5 text-primary-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-gray-300 text-sm">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="mt-20 max-w-4xl mx-auto">
+      <h3 class="text-2xl font-bold text-white text-center mb-12">Frequently Asked Questions</h3>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="space-y-6">
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-2">Can I change plans anytime?</h4>
+            <p class="text-gray-400 text-sm">Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.</p>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-2">Is there a free trial?</h4>
+            <p class="text-gray-400 text-sm">All plans include a 14-day free trial. No credit card required to get started.</p>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-2">What payment methods do you accept?</h4>
+            <p class="text-gray-400 text-sm">We accept all major credit cards, PayPal, and bank transfers for enterprise plans.</p>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-2">Do you offer refunds?</h4>
+            <p class="text-gray-400 text-sm">Yes, we offer a 30-day money-back guarantee for all paid plans.</p>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-2">Is my data secure?</h4>
+            <p class="text-gray-400 text-sm">Absolutely. We're SOC 2 compliant with end-to-end encryption and regular security audits.</p>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-semibold text-white mb-2">Need custom features?</h4>
+            <p class="text-gray-400 text-sm">Our Enterprise plan includes custom development. Contact sales to discuss your needs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust indicators -->
+    <div class="mt-16 text-center">
+      <p class="text-gray-500 mb-8">Trusted by companies worldwide</p>
+      <div class="flex justify-center items-center space-x-12 opacity-60">
+        <div class="text-2xl font-bold text-gray-600">TechCorp</div>
+        <div class="text-2xl font-bold text-gray-600">InnovateLab</div>
+        <div class="text-2xl font-bold text-gray-600">StartupXYZ</div>
+        <div class="text-2xl font-bold text-gray-600">ScaleFirst</div>
+      </div>
+    </div>
+  </div>
+</section>

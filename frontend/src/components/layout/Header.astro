@@ -1,0 +1,81 @@
+---
+// Header component for navigation
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+  <div class="container-max section-padding">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="/" class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-r from-primary-400 to-primary-600 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-white">SaaSPlatform</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="#features" class="text-gray-300 hover:text-white transition-colors">Features</a>
+        <a href="#pricing" class="text-gray-300 hover:text-white transition-colors">Pricing</a>
+        <a href="#about" class="text-gray-300 hover:text-white transition-colors">About</a>
+        <a href="#contact" class="text-gray-300 hover:text-white transition-colors">Contact</a>
+      </nav>
+
+      <!-- CTA Buttons -->
+      <div class="hidden md:flex items-center space-x-4">
+        <a href="/auth" class="btn-primary">Login</a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button class="md:hidden text-gray-300 hover:text-white" id="mobile-menu-button">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="md:hidden hidden" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-800/95 backdrop-blur-md">
+      <a href="#features" class="block px-3 py-2 text-gray-300 hover:text-white transition-colors">Features</a>
+      <a href="#pricing" class="block px-3 py-2 text-gray-300 hover:text-white transition-colors">Pricing</a>
+      <a href="#about" class="block px-3 py-2 text-gray-300 hover:text-white transition-colors">About</a>
+      <a href="#contact" class="block px-3 py-2 text-gray-300 hover:text-white transition-colors">Contact</a>
+      <div class="border-t border-slate-700 pt-4">
+        <a href="/auth" class="block px-3 py-2 text-primary-400 hover:text-primary-300 transition-colors">Login</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const button = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+
+    button?.addEventListener('click', () => {
+      menu?.classList.toggle('hidden');
+    });
+
+    // Close menu when clicking on a link
+    const menuLinks = menu?.querySelectorAll('a');
+    menuLinks?.forEach(link => {
+      link.addEventListener('click', () => {
+        menu?.classList.add('hidden');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!button?.contains(e.target as Node) && !menu?.contains(e.target as Node)) {
+        menu?.classList.add('hidden');
+      }
+    });
+  });
+</script>

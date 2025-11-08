@@ -1,0 +1,121 @@
+---
+// Features section showcasing platform capabilities
+const features = [
+  {
+    icon: "🔐",
+    title: "Advanced Authentication",
+    description: "Secure user authentication with email/password and OAuth providers including Google. JWT tokens with refresh mechanisms.",
+    highlights: ["Multi-factor Authentication", "OAuth Integration", "Session Management"]
+  },
+  {
+    icon: "💳",
+    title: "Payment Processing",
+    description: "Complete payment solution with Stripe and PayPal integration. Handle subscriptions, one-time payments, and billing.",
+    highlights: ["Stripe & PayPal", "Subscription Billing", "Webhook Handling"]
+  },
+  {
+    icon: "🏗️",
+    title: "Scalable Architecture",
+    description: "Built on modern tech stack with Go backend, PostgreSQL database, and Astro frontend for optimal performance.",
+    highlights: ["Microservices Ready", "Auto-scaling", "High Performance"]
+  },
+  {
+    icon: "📊",
+    title: "Analytics & Insights",
+    description: "Comprehensive dashboard with real-time analytics, user metrics, and business intelligence tools.",
+    highlights: ["Real-time Data", "Custom Reports", "User Analytics"]
+  },
+  {
+    icon: "🔧",
+    title: "API-First Design",
+    description: "RESTful APIs with comprehensive documentation. Build integrations and extend functionality easily.",
+    highlights: ["REST APIs", "SDK Support", "Webhook Events"]
+  },
+  {
+    icon: "🛡️",
+    title: "Enterprise Security",
+    description: "SOC 2 compliant infrastructure with end-to-end encryption, regular security audits, and compliance tools.",
+    highlights: ["SOC 2 Compliant", "Data Encryption", "Security Audits"]
+  }
+];
+---
+
+<section id="features" class="py-24 bg-slate-800/50">
+  <div class="container-max section-padding">
+    <div class="text-center mb-16 animate-slide-up">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+        Everything You Need to
+        <span class="gradient-text">Scale Your SaaS</span>
+      </h2>
+      <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+        Our platform provides all the essential components to build, launch, and scale your SaaS business.
+        From authentication to payments, we've got you covered.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {features.map((feature, index) => (
+        <div class="card-hover p-8 group animate-slide-up" style={`animation-delay: ${index * 100}ms`}>
+          <!-- Feature Icon -->
+          <div class="text-4xl mb-6">{feature.icon}</div>
+
+          <!-- Feature Content -->
+          <h3 class="text-xl font-semibold text-white mb-4 group-hover:text-primary-400 transition-colors">
+            {feature.title}
+          </h3>
+          <p class="text-gray-400 mb-6 leading-relaxed">
+            {feature.description}
+          </p>
+
+          <!-- Feature Highlights -->
+          <ul class="space-y-2">
+            {feature.highlights.map((highlight) => (
+              <li class="flex items-center text-sm text-gray-500">
+                <svg class="w-4 h-4 text-primary-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                {highlight}
+              </li>
+            ))}
+          </ul>
+
+          <!-- Hover effect arrow -->
+          <div class="mt-6 opacity-0 group-hover:opacity-100 transition-opacity">
+            <svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Additional feature highlight -->
+    <div class="mt-16 text-center">
+      <div class="inline-flex items-center px-6 py-3 bg-primary-500/10 border border-primary-500/20 rounded-lg">
+        <svg class="w-5 h-5 text-primary-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+        </svg>
+        <span class="text-primary-300 font-medium">
+          All features included in every plan • No hidden fees • Full API access
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import Layout from "../components/layout/Layout.astro";
+import Header from "../components/layout/Header.astro";
+import Hero from "../components/Hero.astro";
+import Features from "../components/Features.astro";
+import Pricing from "../components/Pricing.astro";
+import Footer from "../components/layout/Footer.astro";
+import "../styles/tailwind.css";
+---
+
+<Layout
+    title="SaaS Platform - Build Your Business Faster"
+    description="Launch your software-as-a-service business with our comprehensive platform. Everything you need from authentication to payments, all built-in."
+>
+    <Header />
+    <main>
+        <Hero />
+        <Features />
+        <Pricing />
+    </main>
+    <Footer />
+</Layout>
