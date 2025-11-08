@@ -1,0 +1,293 @@
+---
+// Dashboard page
+import Layout from "../components/layouts/Layout.astro";
+import Header from "../components/Header.astro";
+---
+
+<Layout title="Dashboard - SaaSPlatform">
+    <div class="min-h-screen bg-slate-900">
+        <Header currentPage="dashboard" />
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <!-- Dashboard Header -->
+            <div class="px-4 py-6 sm:px-0">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-white">Dashboard</h1>
+                    <p class="mt-1 text-sm text-gray-400">
+                        Welcome back! Here's what's happening with your account.
+                    </p>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <!-- Total Users -->
+                    <div class="card p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center"
+                                >
+                                    <svg
+                                        class="w-5 h-5 text-blue-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-400 truncate">
+                                        Total Users
+                                    </dt>
+                                    <dd class="text-lg font-medium text-white" id="total-users">
+                                        -
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Sessions -->
+                    <div class="card p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center"
+                                >
+                                    <svg
+                                        class="w-5 h-5 text-green-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-400 truncate">
+                                        Active Sessions
+                                    </dt>
+                                    <dd class="text-lg font-medium text-white" id="active-sessions">
+                                        -
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- API Calls -->
+                    <div class="card p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center"
+                                >
+                                    <svg
+                                        class="w-5 h-5 text-purple-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-400 truncate">
+                                        API Calls Today
+                                    </dt>
+                                    <dd class="text-lg font-medium text-white" id="api-calls">-</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Storage Used -->
+                    <div class="card p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center"
+                                >
+                                    <svg
+                                        class="w-5 h-5 text-orange-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
+                                        ></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt class="text-sm font-medium text-gray-400 truncate">
+                                        Storage Used
+                                    </dt>
+                                    <dd class="text-lg font-medium text-white" id="storage-used">
+                                        -
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Activity Feed -->
+                    <div class="card p-6">
+                        <h3 class="text-lg leading-6 font-medium text-white mb-4">
+                            Recent Activity
+                        </h3>
+                        <div id="activity-feed" class="space-y-4">
+                            <div class="text-gray-400 text-sm">Loading activity...</div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card p-6">
+                        <h3 class="text-lg leading-6 font-medium text-white mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button class="btn-primary w-full"> Create New Project </button>
+                            <button class="btn-secondary w-full"> View Analytics </button>
+                            <button class="btn-secondary w-full"> Manage Team </button>
+                            <button class="btn-secondary w-full"> Account Settings </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</Layout>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        // Check authentication
+        const token = localStorage.getItem("auth_token");
+        if (!token) {
+            window.location.href = "/auth";
+            return;
+        }
+
+        // Load user info and metrics
+        await loadMetrics();
+    });
+
+    async function loadMetrics() {
+        try {
+            const token = localStorage.getItem("auth_token");
+            const response = await fetch("http://localhost:8080/api/metrics", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const metrics = await response.json();
+
+                // Update metrics display
+                document.getElementById("total-users").textContent =
+                    metrics.total_users.toLocaleString();
+                document.getElementById("active-sessions").textContent =
+                    metrics.active_sessions.toLocaleString();
+                document.getElementById("api-calls").textContent =
+                    metrics.api_calls.toLocaleString();
+                document.getElementById("storage-used").textContent = formatBytes(
+                    metrics.storage_used
+                );
+
+                // Load activity feed
+                loadActivityFeed(metrics.recent_activity);
+            } else {
+                // Show default values on error
+                document.getElementById("total-users").textContent = "0";
+                document.getElementById("active-sessions").textContent = "0";
+                document.getElementById("api-calls").textContent = "0";
+                document.getElementById("storage-used").textContent = "0 B";
+            }
+        } catch (error) {
+            console.error("Error loading metrics:", error);
+            // Show default values on error
+            document.getElementById("total-users").textContent = "0";
+            document.getElementById("active-sessions").textContent = "0";
+            document.getElementById("api-calls").textContent = "0";
+            document.getElementById("storage-used").textContent = "0 B";
+        }
+    }
+
+    function loadActivityFeed(activities = []) {
+        const feed = document.getElementById("activity-feed");
+
+        if (activities.length === 0) {
+            feed.innerHTML = '<div class="text-gray-400 text-sm">No recent activity</div>';
+            return;
+        }
+
+        const html = activities
+            .map(
+                (activity) => `
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <div class="w-2 h-2 bg-primary-600 rounded-full mt-2"></div>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-white">${activity.description}</p>
+          <p class="text-xs text-gray-400">${formatTimeAgo(activity.timestamp)}</p>
+        </div>
+      </div>
+    `
+            )
+            .join("");
+
+        feed.innerHTML = html;
+    }
+
+    function formatBytes(bytes) {
+        if (bytes === 0) return "0 B";
+        const k = 1024;
+        const sizes = ["B", "KB", "MB", "GB", "TB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+    }
+
+    function formatTimeAgo(timestamp) {
+        const now = new Date();
+        const time = new Date(timestamp);
+        const diffMs = now - time;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        const diffDays = Math.floor(diffHours / 24);
+
+        if (diffMins < 1) return "Just now";
+        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffHours < 24) return `${diffHours}h ago`;
+        return `${diffDays}d ago`;
+    }
+</script>
