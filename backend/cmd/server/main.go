@@ -12,8 +12,23 @@ import (
 
 	"github.com/danielsaas/generic-saas/internal/auth"
 	"github.com/danielsaas/generic-saas/internal/database"
+	"github.com/danielsaas/generic-saas/internal/metrics"
 	"github.com/danielsaas/generic-saas/internal/middleware"
 )
+
+// handleUserProfile routes between GET and PUT for user profile
+func handleUserProfile(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		metrics.HandleGetUserProfile(w, r)
+	case http.MethodPut:
+		metrics.HandleUpdateUserProfile(w, r)
+	default:
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.Write([]byte(`{"error": "Method not allowed"}`))
+	}
+}
 
 func main() {
 	// Set up structured logging
@@ -40,9 +55,12 @@ func main() {
 		db = dbFactory.CreateMemory()
 	}
 
-	// Initialize auth service
+	// Initialize services
 	authService := auth.NewService(db)
 	auth.SetService(authService)
+
+	metricsService := metrics.NewService(db)
+	metrics.SetService(metricsService)
 
 	// Set up routes
 	mux := http.NewServeMux()
@@ -52,6 +70,16 @@ func main() {
 	// Auth routes
 	mux.HandleFunc("/auth/login", auth.HandleLogin)
 	mux.HandleFunc("/auth/register", auth.HandleRegister)
+
+	// Protected API routes
+	protectedMux := http.NewServeMux()
+	protectedMux.HandleFunc("/api/metrics", metrics.HandleGetMetrics)
+	protectedMux.HandleFunc("/api/user/profile", handleUserProfile)
+	protectedMux.HandleFunc("/api/user/password", metrics.HandleUpdateUserPassword)
+
+	// Apply auth middleware to protected routes
+	protectedHandler := middleware.RequireAuth(db)(protectedMux)
+	mux.Handle("/api/", protectedHandler)
 
 	// Apply middleware
 	var handler http.Handler = mux

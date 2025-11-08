@@ -4,7 +4,10 @@ import (
 	"context"
 	"log/slog"
 	"net/http"
+	"strings"
 	"time"
+
+	"github.com/danielsaas/generic-saas/internal/database"
 )
 
 type contextKey string
@@ -145,4 +148,92 @@ func randomString(length int) string {
 		b[i] = charset[time.Now().UnixNano()%int64(len(charset))]
 	}
 	return string(b)
+}
+
+// RequireAuth middleware ensures the request has valid authentication
+func RequireAuth(db database.Database) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Get Authorization header
+			authHeader := r.Header.Get("Authorization")
+			if authHeader == "" {
+				writeAuthError(w, "Authorization header required")
+				return
+			}
+
+			// Check Bearer token format
+			parts := strings.SplitN(authHeader, " ", 2)
+			if len(parts) != 2 || parts[0] != "Bearer" {
+				writeAuthError(w, "Invalid authorization header format")
+				return
+			}
+
+			token := parts[1]
+			if token == "" {
+				writeAuthError(w, "Token required")
+				return
+			}
+
+			// Parse and validate token (simplified - in production use JWT)
+			userID, err := parseToken(token, db)
+			if err != nil {
+				writeAuthError(w, "Invalid token")
+				return
+			}
+
+			// Add user ID to context
+			ctx := context.WithValue(r.Context(), "user_id", userID)
+			r = r.WithContext(ctx)
+
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
+// parseToken extracts user ID from token (simplified implementation)
+func parseToken(token string, db database.Database) (int, error) {
+	// Simplified token parsing - in production use JWT
+	// Token format: "token_YYYYMMDDHHMMSS_X" where X is userID+48
+	if !strings.HasPrefix(token, "token_") {
+		return 0, &AuthError{"invalid token format"}
+	}
+
+	parts := strings.Split(token, "_")
+	if len(parts) != 3 {
+		return 0, &AuthError{"invalid token format"}
+	}
+
+	// Extract user ID from the last part (simplified)
+	userIDStr := parts[2]
+	if len(userIDStr) == 0 {
+		return 0, &AuthError{"invalid user ID in token"}
+	}
+
+	// Convert back from rune to int (reverse of the generation)
+	userID := int(userIDStr[0]) - 48
+	if userID < 1 {
+		return 0, &AuthError{"invalid user ID"}
+	}
+
+	// Verify user exists in database
+	_, err := db.Users().GetUserByID(context.Background(), userID)
+	if err != nil {
+		return 0, &AuthError{"user not found"}
+	}
+
+	return userID, nil
+}
+
+func writeAuthError(w http.ResponseWriter, message string) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusUnauthorized)
+	w.Write([]byte(`{"error": "` + message + `"}`))
+}
+
+type AuthError struct {
+	message string
+}
+
+func (e *AuthError) Error() string {
+	return e.message
 }
