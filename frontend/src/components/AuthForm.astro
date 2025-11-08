@@ -74,7 +74,7 @@
         </div>
         <button
           type="submit"
-          class="w-full btn-primary py-3"
+          class="w-full btn-primary"
         >
           Sign In
         </button>
@@ -142,7 +142,7 @@
         </div>
         <button
           type="submit"
-          class="w-full btn-primary py-3"
+          class="w-full btn-primary"
         >
           Create Account
         </button>
@@ -265,7 +265,16 @@
 
         if (response.ok) {
           showMessage('Login successful! Redirecting...', 'success');
-          // TODO: Store token and redirect to dashboard
+
+          // Store auth token and user info
+          if (result.token) {
+            localStorage.setItem('auth_token', result.token);
+          }
+          if (result.user) {
+            localStorage.setItem('user_name', result.user.name);
+            localStorage.setItem('user_email', result.user.email);
+          }
+
           setTimeout(() => {
             window.location.href = '/dashboard';
           }, 1500);
