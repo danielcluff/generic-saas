@@ -83,20 +83,20 @@ export default defineConfig({
 
 ```json
 {
-    "dependencies": {
-        "astro": "^4.0.0",
-        "@astrojs/solid-js": "^4.0.0",
-        "@astrojs/tailwind": "^5.0.0",
-        "solid-js": "^1.8.0",
-        "@solidjs/router": "^0.10.0",
-        "axios": "^1.6.0",
-        "@stripe/stripe-js": "^2.0.0",
-        "zod": "^3.22.0"
+    "name": "frontend1",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
     },
-    "devDependencies": {
-        "@types/node": "^20.0.0",
-        "typescript": "^5.0.0",
-        "tailwindcss": "^3.4.0"
+    "dependencies": {
+        "@astrojs/solid-js": "^5.1.3",
+        "@tailwindcss/vite": "^4.1.17",
+        "astro": "^5.15.4",
+        "tailwindcss": "^4.1.17"
     }
 }
 ```

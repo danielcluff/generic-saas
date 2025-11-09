@@ -166,6 +166,21 @@ func validateRegisterRequest(req RegisterRequest) error {
 		return &ValidationError{"Password must be at least 8 characters"}
 	}
 
+	// Check for uppercase letter
+	if !strings.ContainsAny(req.Password, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+		return &ValidationError{"Password must contain at least one uppercase letter"}
+	}
+
+	// Check for lowercase letter
+	if !strings.ContainsAny(req.Password, "abcdefghijklmnopqrstuvwxyz") {
+		return &ValidationError{"Password must contain at least one lowercase letter"}
+	}
+
+	// Check for special character
+	if !strings.ContainsAny(req.Password, "!@#$%^&*()_+-=[]{}|;':\",./<>?") {
+		return &ValidationError{"Password must contain at least one special character"}
+	}
+
 	return nil
 }
 

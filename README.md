@@ -8,6 +8,8 @@ A modern SaaS application template built with Go backend and Astro.js frontend w
 - **Frontend**: Astro.js with Solid.js components and Tailwind CSS
 - **Database**: PostgreSQL with in-memory fallback for development
 - **Authentication**: Custom JWT-based authentication
+- **Email Service**: Multi-provider email system (SendGrid, Amazon SES, SMTP)
+- **Configuration**: Centralized branding and settings management
 - **Containerization**: Docker for PostgreSQL database
 
 ## Prerequisites
@@ -72,6 +74,10 @@ npm run dev
 
 The frontend will be available at `http://localhost:4321`
 
+## Configuration & Customization
+
+To customize your platform's branding, company name, and other settings, see **[CONFIG.md](CONFIG.md)** for detailed configuration instructions. The application supports environment-based configuration for easy rebranding and deployment across different environments.
+
 ## Environment Variables
 
 ### Backend Configuration
@@ -80,6 +86,19 @@ The frontend will be available at `http://localhost:4321`
 |----------|-------------|---------|
 | `PORT` | Backend server port | `8080` |
 | `DATABASE_URL` | PostgreSQL connection string | None (uses in-memory) |
+
+### Application Branding & Configuration
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `APP_NAME` | Internal application name | `SaaSPlatform` |
+| `APP_DISPLAY_NAME` | Name shown to users | `SaaSPlatform` |
+| `COMPANY_NAME` | Company name for legal text | `SaaSPlatform Inc.` |
+| `SUPPORT_EMAIL` | Support contact email | `support@saasplatform.com` |
+| `EMAIL_FROM_DOMAIN` | Domain for outgoing emails | `saasplatform.com` |
+| `EMAIL_FROM_NAME` | Name shown in email "From" field | `SaaSPlatform` |
+
+See [CONFIG.md](CONFIG.md) for complete configuration options and frontend environment variables.
 
 ### Example Environment Setup
 
@@ -134,6 +153,49 @@ docker run -d \
   postgres:15
 ```
 
+## Email Service
+
+The platform includes a comprehensive multi-provider email system supporting:
+
+### Supported Providers
+
+- **SendGrid** - Cloud-based email service (recommended for production)
+- **Amazon SES** - AWS Simple Email Service
+- **SMTP** - Generic SMTP server support for any provider
+
+### Features
+
+- **Automatic failover** between providers
+- **Template-based emails** with configurable branding
+- **Email verification** for user registration
+- **Password reset** functionality
+- **Configurable subjects and headers** using centralized app configuration
+
+### Email Configuration
+
+Set these environment variables to configure your email provider:
+
+```bash
+# SendGrid (recommended)
+EMAIL_PROVIDER=sendgrid
+SENDGRID_API_KEY=your_sendgrid_api_key
+
+# Amazon SES
+EMAIL_PROVIDER=ses
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=us-east-1
+
+# SMTP (generic)
+EMAIL_PROVIDER=smtp
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=your_email@gmail.com
+SMTP_PASSWORD=your_app_password
+```
+
+The system automatically handles email template rendering with your configured branding and generates verification URLs based on your application settings.
+
 ## API Endpoints
 
 ### Health Checks
@@ -143,7 +205,7 @@ docker run -d \
 
 ### Authentication
 
-- `POST /auth/register` - User registration
+- `POST /auth/register` - User registration (includes email verification)
 - `POST /auth/login` - User login
 
 ### Request/Response Examples

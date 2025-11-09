@@ -1,4 +1,6 @@
 ---
+import config from '../../config/app.ts';
+
 export interface Props {
   title: string;
   description?: string;
@@ -6,7 +8,7 @@ export interface Props {
 
 const {
   title,
-  description = "A modern SaaS platform built with cutting-edge technology"
+  description = config.description
 } = Astro.props;
 ---
 

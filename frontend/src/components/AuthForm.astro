@@ -46,9 +46,10 @@
             id="login-email"
             name="email"
             required
-            class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class="input"
             placeholder="Enter your email"
           />
+          <div id="login-email-error" class="field-error hidden"></div>
         </div>
         <div>
           <label for="login-password" class="block text-sm font-medium text-gray-300 mb-2">
@@ -59,9 +60,10 @@
             id="login-password"
             name="password"
             required
-            class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class="input"
             placeholder="Enter your password"
           />
+          <div id="login-password-error" class="field-error hidden"></div>
         </div>
         <div class="flex items-center justify-between">
           <label class="flex items-center">
@@ -91,9 +93,10 @@
             id="register-name"
             name="name"
             required
-            class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class="input"
             placeholder="Enter your full name"
           />
+          <div id="register-name-error" class="field-error hidden"></div>
         </div>
         <div>
           <label for="register-email" class="block text-sm font-medium text-gray-300 mb-2">
@@ -104,9 +107,10 @@
             id="register-email"
             name="email"
             required
-            class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class="input"
             placeholder="Enter your email"
           />
+          <div id="register-email-error" class="field-error hidden"></div>
         </div>
         <div>
           <label for="register-password" class="block text-sm font-medium text-gray-300 mb-2">
@@ -117,9 +121,13 @@
             id="register-password"
             name="password"
             required
-            class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class="input"
             placeholder="Create a password"
           />
+          <div class="text-xs text-gray-400 mt-1">
+            Must be at least 8 characters with uppercase, lowercase, and special character
+          </div>
+          <div id="register-password-error" class="field-error hidden"></div>
         </div>
         <div>
           <label for="register-confirm-password" class="block text-sm font-medium text-gray-300 mb-2">
@@ -130,9 +138,10 @@
             id="register-confirm-password"
             name="confirmPassword"
             required
-            class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            class="input"
             placeholder="Confirm your password"
           />
+          <div id="register-confirm-password-error" class="field-error hidden"></div>
         </div>
         <div class="flex items-center">
           <input type="checkbox" id="terms" required class="w-4 h-4 text-primary-600 border-slate-700 rounded focus:ring-primary-500 focus:ring-offset-0 bg-slate-800">
@@ -186,6 +195,9 @@
     const authTitle = document.getElementById('auth-title');
     const authSubtitle = document.getElementById('auth-subtitle');
     const message = document.getElementById('message');
+
+    // Initialize validation
+    setupValidation();
 
     // Tab switching
     loginTab?.addEventListener('click', () => {
@@ -244,6 +256,11 @@
     });
 
     async function handleLogin(form) {
+      // Validate form before submitting
+      if (!validateLoginForm()) {
+        return;
+      }
+
       const formData = new FormData(form);
       const data = {
         email: formData.get('email'),
@@ -287,19 +304,16 @@
     }
 
     async function handleRegister(form) {
-      const formData = new FormData(form);
-      const password = formData.get('password');
-      const confirmPassword = formData.get('confirmPassword');
-
-      if (password !== confirmPassword) {
-        showMessage('Passwords do not match', 'error');
+      // Validate form before submitting
+      if (!validateRegisterForm()) {
         return;
       }
 
+      const formData = new FormData(form);
       const data = {
         name: formData.get('name'),
         email: formData.get('email'),
-        password: password
+        password: formData.get('password')
       };
 
       try {
@@ -351,6 +365,155 @@
 
     function hideMessage() {
       message?.classList.add('hidden');
+    }
+
+    function isValidEmail(email) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email);
+    }
+
+    // Validation functions
+    function setupValidation() {
+      // Login form validation
+      const loginEmail = document.getElementById('login-email');
+      const loginPassword = document.getElementById('login-password');
+
+      // Register form validation
+      const registerName = document.getElementById('register-name');
+      const registerEmail = document.getElementById('register-email');
+      const registerPassword = document.getElementById('register-password');
+      const registerConfirmPassword = document.getElementById('register-confirm-password');
+
+      // Add event listeners for real-time validation
+      loginEmail?.addEventListener('blur', () => validateField('login-email', validateEmail));
+      loginEmail?.addEventListener('input', () => clearFieldError('login-email'));
+
+      loginPassword?.addEventListener('blur', () => validateField('login-password', validateLoginPassword));
+      loginPassword?.addEventListener('input', () => clearFieldError('login-password'));
+
+      registerName?.addEventListener('blur', () => validateField('register-name', validateName));
+      registerName?.addEventListener('input', () => clearFieldError('register-name'));
+
+      registerEmail?.addEventListener('blur', () => validateField('register-email', validateEmail));
+      registerEmail?.addEventListener('input', () => clearFieldError('register-email'));
+
+      registerPassword?.addEventListener('blur', () => validateField('register-password', validatePassword));
+      registerPassword?.addEventListener('input', () => clearFieldError('register-password'));
+
+      registerConfirmPassword?.addEventListener('blur', () => validateConfirmPassword());
+      registerConfirmPassword?.addEventListener('input', () => clearFieldError('register-confirm-password'));
+    }
+
+    function validateField(fieldId, validationFunction) {
+      const field = document.getElementById(fieldId);
+      const errorElement = document.getElementById(`${fieldId}-error`);
+
+      if (!field || !errorElement) return false;
+
+      const value = field.value.trim();
+      const error = validationFunction(value);
+
+      if (error) {
+        showFieldError(fieldId, error);
+        return false;
+      } else {
+        clearFieldError(fieldId);
+        return true;
+      }
+    }
+
+    function validateEmail(email) {
+      if (!email) return 'Email is required';
+      if (!isValidEmail(email)) return 'Please enter a valid email address';
+      return null;
+    }
+
+    function validatePassword(password) {
+      if (!password) return 'Password is required';
+      if (password.length < 8) return 'Password must be at least 8 characters long';
+
+      // Check for uppercase letter
+      if (!/[A-Z]/.test(password)) {
+        return 'Password must contain at least one uppercase letter';
+      }
+
+      // Check for lowercase letter
+      if (!/[a-z]/.test(password)) {
+        return 'Password must contain at least one lowercase letter';
+      }
+
+      // Check for special character
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+        return 'Password must contain at least one special character';
+      }
+
+      return null;
+    }
+
+    function validateLoginPassword(password) {
+      if (!password) return 'Password is required';
+      return null;
+    }
+
+    function validateName(name) {
+      if (!name) return 'Name is required';
+      if (name.length < 2) return 'Name must be at least 2 characters long';
+      return null;
+    }
+
+    function validateConfirmPassword() {
+      const password = document.getElementById('register-password')?.value;
+      const confirmPassword = document.getElementById('register-confirm-password')?.value;
+
+      if (!confirmPassword) {
+        showFieldError('register-confirm-password', 'Please confirm your password');
+        return false;
+      }
+
+      if (password !== confirmPassword) {
+        showFieldError('register-confirm-password', 'Passwords do not match');
+        return false;
+      }
+
+      clearFieldError('register-confirm-password');
+      return true;
+    }
+
+    function showFieldError(fieldId, errorMessage) {
+      const field = document.getElementById(fieldId);
+      const errorElement = document.getElementById(`${fieldId}-error`);
+
+      if (field && errorElement) {
+        field.classList.add('input-error');
+        field.classList.remove('input-success');
+        errorElement.textContent = errorMessage;
+        errorElement.classList.remove('hidden');
+      }
+    }
+
+    function clearFieldError(fieldId) {
+      const field = document.getElementById(fieldId);
+      const errorElement = document.getElementById(`${fieldId}-error`);
+
+      if (field && errorElement) {
+        field.classList.remove('input-error');
+        field.classList.add('input-success');
+        errorElement.classList.add('hidden');
+      }
+    }
+
+    function validateLoginForm() {
+      const emailValid = validateField('login-email', validateEmail);
+      const passwordValid = validateField('login-password', validateLoginPassword);
+      return emailValid && passwordValid;
+    }
+
+    function validateRegisterForm() {
+      const nameValid = validateField('register-name', validateName);
+      const emailValid = validateField('register-email', validateEmail);
+      const passwordValid = validateField('register-password', validatePassword);
+      const confirmPasswordValid = validateConfirmPassword();
+      return nameValid && emailValid && passwordValid && confirmPasswordValid;
     }
 
     // Check URL params for initial mode

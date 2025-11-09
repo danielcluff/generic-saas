@@ -5,11 +5,12 @@ import Hero from "../components/Hero.astro";
 import Features from "../components/Features.astro";
 import Pricing from "../components/Pricing.astro";
 import Footer from "../components/layout/Footer.astro";
+import config, { getBrandingTitle } from "../config/app.ts";
 import "../styles/tailwind.css";
 ---
 
 <Layout
-    title="SaaS Platform - Build Your Business Faster"
+    title={getBrandingTitle("Build Your Business Faster")}
     description="Launch your software-as-a-service business with our comprehensive platform. Everything you need from authentication to payments, all built-in."
 >
     <Header />
