@@ -191,7 +191,7 @@ import Header from "../components/Header.astro";
         // Check authentication
         const token = localStorage.getItem("auth_token");
         if (!token) {
-            window.location.href = "/auth";
+            window.location.href = "/login";
             return;
         }
 
@@ -220,7 +220,7 @@ import Header from "../components/Header.astro";
             } else {
                 // Token might be invalid, redirect to login
                 localStorage.removeItem("auth_token");
-                window.location.href = "/auth";
+                window.location.href = "/login";
             }
         } catch (error) {
             console.error("Error loading user info:", error);
